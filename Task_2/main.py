@@ -1,23 +1,18 @@
-'''
-generator_numbers, яка буде аналізувати текст, ідентифікувати всі дійсні числа, що вважаються частинами доходів, і повертати їх як генератор. Дійсні числа у тексті записані без помилок, чітко відокремлені пробілами з обох боків. Також потрібно реалізувати функцію sum_profit, яка буде використовувати generator_numbers для підсумовування цих чисел і обчислення загального прибутк
-'''
-
-# def generator_numbers(tex: str):
-
-#     def sum_profit(text: str, func: Callable):
-
-# text = "Загальний дохід працівника складається з декількох частин: 1000.01 як основний дохід, доповнений додатковими надходженнями 27.45 і 324.00 доларів."
-
-# total_income = sum_profit(text, generator_numbers)
-# print(f"Загальний дохід: {total_income}")
-
-
 import re
+from typing import Callable
 
-text = "Загальний дохід працівника складається з декількох частин: 1000.01 як основний дохід, доповнений додатковими надходженнями 27.45 і 324.00 доларів."
+def generator_numbers(text: str):
+    pattern = "\d*\.\d+"
+    for match in re.finditer(pattern, text):
+        yield float(match.group())
 
-p_floats =  "\d*\.\d+"
+def sum_profit(text: str, func: Callable):
+    total_income = 0
+    for number in func(text):
+        total_income += number
+    return total_income
 
-match = re.findall(p_floats, text)
-print(match)
+text = 'Загальний дохід працівника складається з декількох частин: 1000.01 як основний дохід,доповнений додатковими надходженнями 27.45 і 324.00 доларів.'
 
+total_income = sum_profit(text, generator_numbers)
+print(f'Загальний дохід: {total_income}')

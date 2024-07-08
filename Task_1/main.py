@@ -1,28 +1,22 @@
-'''
-Реалізуйте функцію caching_fibonacci, яка створює та використовує кеш для зберігання і повторного використання вже обчислених значень чисел Фібоначчі.
-'''
+def caching_fibonacci():
+      cache = {}
 
-'''
-Функція caching_fibonacci() повинна повертати внутрішню функцію fibonacci(n).
-fibonacci(n) обчислює n-те число Фібоначчі. Якщо число вже знаходиться у кеші, функція має повертати значення з кешу.
-Якщо число не знаходиться у кеші, функція має обчислити його, зберегти у кеш та повернути результат.
-Використання рекурсії для обчислення чисел Фібоначчі.
+      def fibonacci(n):
+        if n < 0:
+            raise ValueError('n must be a non-negative integer.')
+        if  n <= 0:
+            return 0
+        elif n == 1:
+            return 1
+        elif n in cache:
+           return cache[n]
+        else:
+           cache[n] = fibonacci(n - 1) + fibonacci(n - 2)
+           return cache[n]
+        
+      return fibonacci
 
-'''
+fib = caching_fibonacci()
 
-'''
-ФУНКЦІЯ caching_fibonacci
-    Створити порожній словник cache
-
-    ФУНКЦІЯ fibonacci(n)
-        Якщо n <= 0, повернути 0
-        Якщо n == 1, повернути 1
-        Якщо n у cache, повернути cache[n]
-
-        cache[n] = fibonacci(n - 1) + fibonacci(n - 2)
-        Повернути cache[n]
-
-    Повернути функцію fibonacci
-КІНЕЦЬ ФУНКЦІЇ caching_fibonacci
-
-'''
+print(fib(10))  # Виведе 55
+print(fib(15))  # Виведе 610
